@@ -1,0 +1,27 @@
+# action.yml
+name: 'Do-Nginx-App'
+description: 'Initialize your Node app with Nginx HTTP Proxy'
+inputs:
+  ip-address:
+    description: 'The IP address of your server'
+    required: true
+  env:
+    description: 'Environmental variables'
+    required: false
+  startup-script:
+    description: 'Npm script to run your app. e.g npm start'
+    required: true
+  api-port:
+    description: 'Configured PORT. e.g 5000'
+    required: true
+outputs:
+  time:
+    description: 'The time we greeted you'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.ip-address }}
+    - ${{ inputs.env }}
+    - ${{ inputs.startup-script }}
+    - ${{ inputs.api-port }}
