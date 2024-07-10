@@ -1,32 +1,35 @@
 #!/bin/sh
 echo "Hello there!!!... initializing your Node app with Nginx HTTP Proxy"
+ssh -i $5 $6@$1
 export IP_ADDR=$1
 export ENV=$2
 export STARTUP_SCRIPT=$3
 export API_PORT=$4
 
+echo $IP_ADDR
+
 # Install dependencies
-apt update -y
-apt upgrade -y
-apt-get install -y curl
-apt-get install -y nodejs
-apt install -y nginx vim nano zip npm
+sudo apt update -y
+sudo apt upgrade -y
+sudo apt-get install -y curl
+sudo apt-get install -y nodejs
+sudo apt install -y nginx vim nano zip npm
 
 # Setup your app files
-mkdir /var/www/html/api
+sudo mkdir /var/www/html/api
 cd /var/www/html/api
 git clone $GITHUB_REPOSITORY
 echo $ENV > .env
 $STARTUP_SCRIPT
 
 # Enable firewall rules
-ufw allow 'OpenSSH'
-ufw allow 'Nginx HTTP'
-ufw enable
+sudo ufw allow 'OpenSSH'
+sudo ufw allow 'Nginx HTTP'
+sudo ufw enable
 
 # Setup Nginx Proxy Config
 cd ~
-touch /etc/nginx/sites-available/api
+sudo touch /etc/nginx/sites-available/api
 echo "server {
    server_name $IP_ADDR;
 
@@ -49,10 +52,10 @@ echo "server {
 
 # Establish symbolic link
 cd ~
-ln -s /etc/nginx/sites-available/api /etc/nginx/sites-enabled/api
+sudo ln -s /etc/nginx/sites-available/api /etc/nginx/sites-enabled/api
 
 # Check if nginx is properly setup
-nginx -t
-systemctl restart nginx
+sudo nginx -t
+sudo systemctl restart nginx
 
 echo "Setup complete!!!.... Verify all configurations work fine"

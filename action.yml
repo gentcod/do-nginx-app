@@ -14,6 +14,12 @@ inputs:
   api-port:
     description: 'Configured PORT. e.g 5000'
     required: true
+  user:
+    description: 'Virtual machine user'
+    required: true
+  key:
+    description: 'Authorized SSH key'
+    required: true
 outputs:
   time:
     description: 'The time we greeted you'
@@ -25,3 +31,5 @@ runs:
     - ${{ inputs.env }}
     - ${{ inputs.startup-script }}
     - ${{ inputs.api-port }}
+    - ${{ inputs.user }}
+    - ${{ inputs.key }}
