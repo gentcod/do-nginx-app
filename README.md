@@ -4,35 +4,30 @@ A action helps you initialize a Nginx server on a Virtual Machine by simply sett
 
 ## Inputs
 
-## `ip-address`
+#### `ip-address`
+*Required*: The IP Address of the Virtual Machine hosting your server
 
-**Required** The IP Address of the Virtual Machine hosting your server
+#### `env`
+*Not Required*: Environmental variables used to run your Node app. NB: variables will be populated in .env file on your virtual machine
 
-## `env`
+#### `startup-script`
+*Required*: The npm script to run your app. e.g npm start
 
-**Not Required** Environmental variables used to run your Node app. NB: variables will be populated in .env file on your virtual machine
+#### `api-port`
+*Required*: The configured PORT. e.g 5000
 
-## `startup-script`
+#### `user`
+*Required*: The virtual machine user e.g root
 
-**Required** The npm script to run your app. e.g npm start
+#### `key`
+*Required*: Authorized SSH key
 
-## `api-port`
-
-**Required** The configured PORT. e.g 5000
-
-## `user`
-
-**Required** The virtual machine user e.g root
-
-## `key`
-
-**Required** Authorized SSH key
-
-uses: actions/do-nginx-app@v2
-with:
-   ip-address: secrets.IP_ADDR
-   env: secrets.ENV
-   startup-script: secrets.STARTUP_SCRIPT
-   api-port: secrets.API_PORT
-   user: secrets.USER
-   key: secrets.KEY
+## Usage
+- uses: gentcod/do-nginx-app@v2
+- with:
+   - ip-address: secrets.IP_ADDR
+   - env: secrets.ENV
+   - startup-script: secrets.STARTUP_SCRIPT
+   - api-port: secrets.API_PORT
+   - user: secrets.USER
+   - key: secrets.KEY`
