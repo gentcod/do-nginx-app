@@ -6,27 +6,27 @@ export STARTUP_SCRIPT=$3
 export API_PORT=$4
 
 # Install dependencies
-sudo apt update -y
-sudo apt upgrade -y
-sudo apt-get install -y curl
-sudo apt-get install -y nodejs
-sudo apt install -y nginx vim nano zip npm
+apt update -y
+apt upgrade -y
+apt-get install -y curl
+apt-get install -y nodejs
+apt install -y nginx vim nano zip npm
 
 # Setup your app files
-sudo mkdir /var/www/html/api
+mkdir /var/www/html/api
 cd /var/www/html/api
 git clone $GITHUB_REPOSITORY
 echo $ENV > .env
 $STARTUP_SCRIPT
 
 # Enable firewall rules
-sudo ufw allow 'OpenSSH'
-sudo ufw allow 'Nginx HTTP'
-sudo ufw enable
+ufw allow 'OpenSSH'
+ufw allow 'Nginx HTTP'
+ufw enable
 
 # Setup Nginx Proxy Config
 cd ~
-sudo touch /etc/nginx/sites-available/api
+touch /etc/nginx/sites-available/api
 echo "server {
    server_name $IP_ADDR;
 
@@ -49,10 +49,10 @@ echo "server {
 
 # Establish symbolic link
 cd ~
-sudo ln -s /etc/nginx/sites-available/api /etc/nginx/sites-enabled/api
+ln -s /etc/nginx/sites-available/api /etc/nginx/sites-enabled/api
 
 # Check if nginx is properly setup
-sudo nginx -t
-sudo systemctl restart nginx
+nginx -t
+systemctl restart nginx
 
 echo "Setup complete!!!.... Verify all configurations work fine"
