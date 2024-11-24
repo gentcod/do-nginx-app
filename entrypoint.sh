@@ -1,6 +1,5 @@
 #!/bin/sh
 echo "Hello there!!!... initializing your Node app with Nginx HTTP Proxy"
-ssh -i $5 $6@$1
 export IP_ADDR=$1
 export ENV=$2
 export STARTUP_SCRIPT=$3

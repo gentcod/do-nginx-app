@@ -1,2 +1,4 @@
 bin/
-ref.txt
+*.txt
+secrets/*
+*.env

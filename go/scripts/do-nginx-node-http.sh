@@ -1,10 +1,10 @@
 #!/bin/sh
 echo "Hello there!!!... initializing your Node app with Nginx HTTP Proxy"
-export IP_ADDR=${{ secrets.IP_ADDR }}
-export GITHUB_REPO=${{ secrets.GITHUB_REPO }}
-export ENV=${{ secrets.ENV }}
-export STARTUP_SCRIPT=${{ secrets.STARTUP_SCRIPT }}
-export API_PORT=${{ secrets.API_PORT }}
+export IP_ADDR=$1
+export ENV=$2
+export STARTUP_SCRIPT=$3
+export API_PORT=$4
+export GITHUB_REPO=$5
 
 # Install dependencies
 sudo apt update -y

@@ -1,2 +1,10 @@
 #!/bin/sh
-echo "Hello there!!!... initializing your Node app with Nginx HTTP Proxy"
+pwd
+
+ls -a
+
+pm2 status
+
+pwd
+
+cat file.txt

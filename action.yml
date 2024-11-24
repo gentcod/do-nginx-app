@@ -28,8 +28,9 @@ runs:
   image: 'Dockerfile'
   args:
     - ${{ inputs.ip-address }}
-    - ${{ inputs.env }}
-    - ${{ inputs.startup-script }}
-    - ${{ inputs.api-port }}
     - ${{ inputs.user }}
     - ${{ inputs.key }}
+    - ${{ inputs.passphrase }}
+    - ${{ inputs.startup-script }}
+    - ${{ inputs.env }}
+    - ${{ inputs.api-port }}
