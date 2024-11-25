@@ -14,9 +14,9 @@ func main() {
 		log.Fatal("cannot load config", err)
 	}
 
-	if len(os.Args) < 3 {
-		fmt.Printf("Expected at least 5 arguments, got %d\n", len(os.Args))
-		os.Exit(1)
+	args, err := GetProgArgs()
+	if err != nil {
+		log.Fatal("error getting environmental variables", err)
 	}
 
 	script, err := os.ReadFile(config.ScriptPath)
@@ -24,7 +24,16 @@ func main() {
 		log.Fatal("error reading script file", err)
 	}
 
-	err = ParseArgToScript(script, os.Args, config.UpdateScriptPath)
+	err = ParseArgToScript(
+		script, []string{
+			args.HostAddr,
+			args.Env,
+			args.StartupScript,
+			args.ApiPort,
+			args.GitHubRepo,
+		},
+		config.UpdateScriptPath,
+	)
 	if err != nil {
 		log.Fatal("error parsing args to script", err)
 	}
@@ -32,20 +41,21 @@ func main() {
 	// DON'T DELETE
 	// pKey, err := os.ReadFile("../secrets/id_rsa")
 	// if err != nil {
-		// 	log.Fatal("error encoutered reading env file: ", err)
-		// }
-		// passphrase := []byte("passphrase")
-		
+	// 	log.Fatal("error encoutered reading env file: ", err)
+	// }
+	// passphrase := []byte("passphrase")
+
 	// Implement SSH
 	opts := sshOpts{
-		HostAddr: os.Args[1],
-		Cmd: "echo \"Hello there\"",
+		HostAddr: fmt.Sprintf("%s:%d", args.HostAddr, args.Port),
+		Protocol: args.Protocol,
+		Cmd:      "echo \"Hello there\"",
 		AuthOpts: AuthOpts{
-			Type: "private-key-with-passphrase",
-			User: os.Args[2],
-			HostKey: false,
-			PrivateKey: []byte(os.Args[3]),
-			Passphrase: []byte(os.Args[4]),
+			Type:       args.AuthType,
+			User:       args.User,
+			HostKey:    false, // TODO: determine when to use hostkey validation
+			PrivateKey: []byte(args.PKey),
+			Passphrase: []byte(args.Passphrase),
 		},
 	}
 

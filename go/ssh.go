@@ -9,6 +9,7 @@ import (
 
 type sshOpts struct {
 	HostAddr string
+	Protocol string
 	Cmd string
 	AuthOpts AuthOpts
 }
@@ -19,7 +20,7 @@ func CreateSSHClient(opts sshOpts) (*ssh.Client, error) {
 		return nil, fmt.Errorf("error initializing ssh client config: %v", err)
 	}
 
-	client, err := ssh.Dial("tcp", opts.HostAddr, config)
+	client, err := ssh.Dial(opts.Protocol, opts.HostAddr, config)
 	if err != nil {
 		return nil, fmt.Errorf("failed to dial: %v", err)
 	}

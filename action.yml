@@ -26,11 +26,15 @@ outputs:
 runs:
   using: 'docker'
   image: 'Dockerfile'
-  args:
-    - ${{ inputs.ip-address }}
-    - ${{ inputs.user }}
-    - ${{ inputs.key }}
-    - ${{ inputs.passphrase }}
-    - ${{ inputs.startup-script }}
-    - ${{ inputs.env }}
-    - ${{ inputs.api-port }}
+  env:
+    INPUT_HOST: ${{ inputs.host }}
+    INPUT_PROTOCOL: ${{ inputs.protocol }}
+    INPUT_PORT: ${{ inputs.port }}
+    INPUT_USER: ${{ inputs.user }}
+    INPUT_PASSWORD: ${{ inputs.password }}
+    INPUT_PKEY: ${{ inputs.pkey }}
+    INPUT_PASSPHRASE: ${{ inputs.passphrase }}
+    INPUT_GITHUB_REPO: ${{ inputs.github-repo }}
+    INPUT_STARTUP_SCRIPT: ${{ inputs.startup-script }}
+    INPUT_API_PORT: ${{ inputs.api-port }}
+    INPUT_ENV: ${{ inputs.env }}
