@@ -1,5 +1,5 @@
 #!/bin/sh
-echo "Hello there!!!... initializing your Node app with Nginx HTTP Proxy"
+arrays are a bash/mksh feature (parsed as posix via -ln=auto)
 export IP_ADDR=$1
 export ENV=$2
 export STARTUP_SCRIPT=$3

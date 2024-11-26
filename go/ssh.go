@@ -10,7 +10,7 @@ import (
 type sshOpts struct {
 	HostAddr string
 	Protocol string
-	Cmd string
+	Cmd      string
 	AuthOpts AuthOpts
 }
 
@@ -24,7 +24,7 @@ func CreateSSHClient(opts sshOpts) (*ssh.Client, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to dial: %v", err)
 	}
-	
+
 	return client, nil
 }
 
@@ -45,7 +45,7 @@ type AuthOpts struct {
 	// PrivateKey represents the ssh private key is AuthOpts.Type -> private-key-only or private-key-with-passphrase
 	PrivateKey []byte
 
-	// Passphrase represents the associated passphrase for a ssh private key 
+	// Passphrase represents the associated passphrase for a ssh private key
 	// it is used only when AuthOpts.Type -> private-key-with-passphrase
 	Passphrase []byte
 }
@@ -135,7 +135,6 @@ func sshCopy(client *ssh.Client, scriptFilePath, remoteFilePath string) error {
 }
 
 func sshCleanup(client *ssh.Client, remoteFilePath string) error {
-	// Clean up the remote script if necessary
 	cleanupSession, err := client.NewSession()
 	if err != nil {
 		return fmt.Errorf("failed to create cleanup session: %v", err)

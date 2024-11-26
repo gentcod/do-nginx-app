@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	// "os/exec"
 )
 
 func main() {
@@ -16,7 +15,7 @@ func main() {
 
 	args, err := GetProgArgs()
 	if err != nil {
-		log.Fatal("error getting environmental variables", err)
+		log.Fatal("error getting environmental variables: ", err)
 	}
 
 	script, err := os.ReadFile(config.ScriptPath)
@@ -38,13 +37,6 @@ func main() {
 		log.Fatal("error parsing args to script", err)
 	}
 
-	// DON'T DELETE
-	// pKey, err := os.ReadFile("../secrets/id_rsa")
-	// if err != nil {
-	// 	log.Fatal("error encoutered reading env file: ", err)
-	// }
-	// passphrase := []byte("passphrase")
-
 	// Implement SSH
 	opts := sshOpts{
 		HostAddr: fmt.Sprintf("%s:%d", args.HostAddr, args.Port),
@@ -54,6 +46,7 @@ func main() {
 			Type:       args.AuthType,
 			User:       args.User,
 			HostKey:    false, // TODO: determine when to use hostkey validation
+			Password:   args.Password,
 			PrivateKey: []byte(args.PKey),
 			Passphrase: []byte(args.Passphrase),
 		},
@@ -91,5 +84,11 @@ func main() {
 		log.Fatal("failed to cleanup copied script: ", err)
 	}
 
-	// Delete create script
+	err = os.Remove(config.UpdateScriptPath)
+	if err != nil {
+		log.Fatal("Error deleting file: ", err)
+	}
 }
+
+// TODO: write testcases for key funcs
+// TODO: Implement updating server from http to https: Param: http, https. 

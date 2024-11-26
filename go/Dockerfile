@@ -5,8 +5,6 @@ LABEL maintainer="Oyefule Oluwatayo <oyefuleoluwatayo@gmail.com>"
 
 WORKDIR /app
 COPY . .
-
-# Build the application
 RUN go build -o /do-nginx
 
 # Final stage
@@ -16,6 +14,8 @@ RUN apk add --no-cache ca-certificates
 
 WORKDIR /app
 COPY --from=builder /do-nginx /app/do-nginx
+COPY .env .
+COPY /scripts /app/scripts
 
 RUN chmod +x /app/do-nginx
 

@@ -37,11 +37,18 @@ func GetProgArgs() (*ProgArgs, error) {
 		protocol = p
 	}
 
+	// DON'T DELETE
+	// pKey, err := os.ReadFile("../secrets/id_rsa")
+	// if err != nil {
+	// 	return nil, fmt.Errorf("error encoutered reading env file: %v", err)
+	// }
+	// passphrase := []byte("passphrase")
+
 	config := &ProgArgs{
 		HostAddr:      os.Getenv("INPUT_HOST"),
 		Protocol:      protocol,
 		Port:          port,
-		User:          os.Getenv("INPUT_USERNAME"),
+		User:          os.Getenv("INPUT_USER"),
 		Password:      os.Getenv("INPUT_PASSWORD"),
 		PKey:          os.Getenv("INPUT_PKEY"),
 		Passphrase:    os.Getenv("INPUT_PASSPHRASE"),
@@ -66,7 +73,7 @@ func (args *ProgArgs) validate() error {
 		return fmt.Errorf("host is required")
 	}
 	if args.User == "" {
-		return fmt.Errorf("username is required")
+		return fmt.Errorf("user is required")
 	}
 	if args.Port < 1 || args.Port > 65535 {
 		return fmt.Errorf("invalid port number: %d", args.Port)
@@ -86,14 +93,15 @@ func (arg *ProgArgs) getAuthType() {
 	}
 	if arg.PKey != "" && arg.Passphrase != "" {
 		arg.AuthType = "private-key-with-passphrase"
+	} else {
+		arg.AuthType = "password"
 	}
-	arg.AuthType = "password"
 }
 
 func ParseArgToScript(script []byte, args []string, updatedScriptPath string) error {
 	updatedScript := string(script)
 	for i, arg := range args {
-		placeholder := fmt.Sprintf("$%d", i)
+		placeholder := fmt.Sprintf("$%d", i+1)
 		updatedScript = strings.ReplaceAll(updatedScript, placeholder, arg)
 	}
 

@@ -21,10 +21,8 @@ docker_run_command=(
     -e "INPUT_API_PORT=${INPUT_API_PORT:-}"
     -e "INPUT_ENV=${INPUT_ENV:-}"
 
-    # Remove the interactive flags if running in a CI environment
     -i -t
     
-    # Your Golang SSH client image name
     do-nginx
 )
 
