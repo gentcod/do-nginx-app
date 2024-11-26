@@ -2,39 +2,75 @@
 name: 'Do-Nginx-App'
 description: 'Initialize your Node app with Nginx HTTP Proxy'
 inputs:
-  ip-address:
+  host:
     description: 'The IP address of your server'
     required: true
-  env:
-    description: 'Environmental variables'
+  protocol:
+    description: 'SSH connection protocol. Default is set to "tcp".'
     required: false
+    default: 'tcp'
+  port:
+    description: 'The port for host connection. Default is set to -> 22.'
+    required: false
+    default: '22'
+  user:
+    description: 'Virtual machine user'
+    required: true
+  password:
+    description: 'Password to authenticate ssh connection'
+    required: false
+  key:
+    description: 'Authorized SSH key authenticate ssh connection'
+    required: false
+  passphrase:
+    description: 'Associated passphrase if any, to the provided authorized SSH key'
+    required: false
+  github-repo:
+    description: 'The github repository with the server code your trying to run.'
+    required: true
   startup-script:
-    description: 'Npm script to run your app. e.g npm start'
+    description: 'Script to run your app. e.g npm start, go run main.go'
     required: true
   api-port:
     description: 'Configured PORT. e.g 5000'
     required: true
-  user:
-    description: 'Virtual machine user'
-    required: true
-  key:
-    description: 'Authorized SSH key'
-    required: true
+  env:
+    description: 'Environmental variables. Key-value pairs -> KEY=VALUE'
+    required: false
 outputs:
   time:
-    description: 'The time we greeted you'
+    description: 'Timestamp of action execution'
+    value: ${{ steps.timestamp.outputs.time }}
+  deployment-status:
+    description: 'Whether the deployment was successful'
+    value: ${{ steps.deployment.outputs.status }}
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  env:
-    INPUT_HOST: ${{ inputs.host }}
-    INPUT_PROTOCOL: ${{ inputs.protocol }}
-    INPUT_PORT: ${{ inputs.port }}
-    INPUT_USER: ${{ inputs.user }}
-    INPUT_PASSWORD: ${{ inputs.password }}
-    INPUT_PKEY: ${{ inputs.pkey }}
-    INPUT_PASSPHRASE: ${{ inputs.passphrase }}
-    INPUT_GITHUB_REPO: ${{ inputs.github-repo }}
-    INPUT_STARTUP_SCRIPT: ${{ inputs.startup-script }}
-    INPUT_API_PORT: ${{ inputs.api-port }}
-    INPUT_ENV: ${{ inputs.env }}
+  using: 'composite'
+  steps:
+  - name: Set Timestamp
+    id: timestamp
+    shell: bash
+    run: echo "time=$(date)" >> "$GITHUB_OUTPUT"
+
+  - name: Prepare Do Nginx Client
+    id: deployment
+    shell: bash
+    env:
+      INPUT_HOST: ${{ inputs.host }}
+      INPUT_PROTOCOL: ${{ inputs.protocol }}
+      INPUT_PORT: ${{ inputs.port }}
+      INPUT_USER: ${{ inputs.user }}
+      INPUT_PASSWORD: ${{ inputs.password }}
+      INPUT_PKEY: ${{ inputs.key }}
+      INPUT_PASSPHRASE: ${{ inputs.passphrase }}
+      INPUT_GITHUB_REPO: ${{ inputs.github-repo }}
+      INPUT_STARTUP_SCRIPT: ${{ inputs.startup-script }}
+      INPUT_API_PORT: ${{ inputs.api-port }}
+      INPUT_ENV: ${{ inputs.env }}
+    run: |
+      ${{ github.action_path }}/entrypoint.sh
+      if [ $? -eq 0 ]; then
+        echo "status=success" >> "$GITHUB_OUTPUT"
+      else
+        echo "status=failure" >> "$GITHUB_OUTPUT"
+      fi
