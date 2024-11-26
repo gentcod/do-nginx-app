@@ -2,12 +2,6 @@
 set -euo pipefail
 
 echo "Hello there!!!... Updating your Node app from Nginx HTTP to HTTPS Proxy"
-
-if [ $# -ne 4 ]; then
-   echo "Usage: $0 <IP_ADDR> <ENV> <STARTUP_SCRIPT> <API_PORT> <GITHUB_REPO>"
-   exit 1
-fi
-
 export DOMAIN_NAME=$1
 export API_PORT=$2
 

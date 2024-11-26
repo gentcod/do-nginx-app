@@ -27,5 +27,4 @@ docker_run_command=(
 )
 
 # Execute the docker run command
-echo "Executing: ${docker_run_command[*]}"
 "${docker_run_command[@]}"

@@ -2,12 +2,6 @@
 set -euo pipefail
 
 echo "Initializing Nginx HTTP Server"
-
-if [ $# -ne 4 ]; then
-   echo "Usage: $0 <IP_ADDR> <ENV> <STARTUP_SCRIPT> <API_PORT> <GITHUB_REPO>"
-   exit 1
-fi
-
 export IP_ADDR=$1
 export ENV=$2
 export STARTUP_SCRIPT=$3
