@@ -40,7 +40,7 @@ A action helps you initialize a Nginx server on a Virtual Machine by simply sett
 
 ## Usage
 ```yaml
-- uses: gentcod/do-nginx-app@v2
+- uses: gentcod/do-nginx-app@v1
 - with:
    - host: ${{ secrets.HOST }}
    - user: ${{ secrets.USER }}
