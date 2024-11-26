@@ -23,7 +23,7 @@ docker_run_command=(
 
     -i -t
     
-    do-nginx
+    gentcod/do-nginx
 )
 
 # Execute the docker run command
