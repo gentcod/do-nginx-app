@@ -20,7 +20,7 @@ inputs:
     description: 'Password to authenticate ssh connection'
     required: false
   key:
-    description: 'Authorized SSH key authenticate ssh connection'
+    description: 'Authorized SSH key to authenticate ssh connection'
     required: false
   passphrase:
     description: 'Associated passphrase if any, to the provided authorized SSH key'
@@ -29,7 +29,7 @@ inputs:
     description: 'The github repository with the server code your trying to run.'
     required: true
   startup-script:
-    description: 'Script to run your app. e.g npm start, go run main.go'
+    description: 'Script to run your app. e.g npm start'
     required: true
   api-port:
     description: 'Configured PORT. e.g 5000'

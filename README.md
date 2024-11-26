@@ -4,30 +4,49 @@ A action helps you initialize a Nginx server on a Virtual Machine by simply sett
 
 ## Inputs
 
-#### `ip-address`
-*Required*: The IP Address of the Virtual Machine hosting your server
+#### `host`
+> *Required*: The IP Address of the Virtual Machine hosting your server.
 
-#### `env`
-*Not Required*: Environmental variables used to run your Node app. NB: variables will be populated in .env file on your virtual machine
+#### `protocol`
+> *Not Required*: SSH connection protocol. Default is set to "tcp".
 
-#### `startup-script`
-*Required*: The npm script to run your app. e.g npm start
-
-#### `api-port`
-*Required*: The configured PORT. e.g 5000
+#### `port`
+> *Not Required*: The port for host connection. Default is set to -> 22.
 
 #### `user`
-*Required*: The virtual machine user e.g root
+> *Required*: The virtual machine user e.g root.
+
+#### `password`
+> *Not Required*: Password to authenticate ssh connection. NB: It is not required if authentication is done using SSH private key.
 
 #### `key`
-*Required*: Authorized SSH key
+> *Not Required*: Authorized SSH key to authenticate ssh connection. NB: It is not required if authentication is not done with password.
+
+#### `passphrase`
+> *Not Required*: Associated passphrase if any, to the provided authorized SSH key. NB: It is not required if authentication is not done with password.
+
+#### `github-repo`
+> *Required*: The github repository with the server code your trying to run.
+
+#### `startup-script`
+> *Required*: The application script to run your app. e.g npm start.
+
+#### `api-port`
+> *Required*: The configured PORT. e.g 5000
+
+#### `env`
+> *Not Required*: Environmental variables used to run your Node app. NB: variables will be populated in .env file on your virtual machine. Key-value pairs -> KEY=VALUE
+
 
 ## Usage
+```yaml
 - uses: gentcod/do-nginx-app@v2
 - with:
-   - ip-address: secrets.IP_ADDR
-   - env: secrets.ENV
-   - startup-script: secrets.STARTUP_SCRIPT
-   - api-port: secrets.API_PORT
-   - user: secrets.USER
-   - key: secrets.KEY`
+   - host: ${{ secrets.HOST }}
+   - user: ${{ secrets.USER }}
+   - key: ${{ secrets.KEY }}
+   - passphrase: ${{ secrets.PASSPHRASE }}
+   - github-repo: ${{ secrets.GITHUB_REPO }}
+   - startup-script: ${{ secrets.STARTUP_SCRIPT }}
+   - api-port: ${{ secrets.API_PORT }}
+```
