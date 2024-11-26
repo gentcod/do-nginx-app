@@ -107,8 +107,7 @@ func ParseArgToScript(script []byte, args []string, updatedScriptPath string) er
 
 	err := os.WriteFile(updatedScriptPath, []byte(updatedScript), 0755)
 	if err != nil {
-		os.Exit(1)
-		return fmt.Errorf("Error writing updated script: %v\n", err)
+		return fmt.Errorf("error writing updated script: %v", err)
 	}
 
 	return nil

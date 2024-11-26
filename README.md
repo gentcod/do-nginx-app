@@ -26,7 +26,7 @@ A action helps you initialize a Nginx server on a Virtual Machine by simply sett
 > *Not Required*: Associated passphrase if any, to the provided authorized SSH key. NB: It is not required if authentication is not done with password.
 
 #### `github-repo`
-> *Required*: The github repository with the server code your trying to run.
+> *Required*: The github repository with the server code you're trying to run.
 
 #### `startup-script`
 > *Required*: The application script to run your app. e.g npm start.
@@ -40,7 +40,7 @@ A action helps you initialize a Nginx server on a Virtual Machine by simply sett
 
 ## Usage
 ```yaml
-- uses: gentcod/do-nginx-app@v1
+- uses: gentcod/do-nginx-app@v2
 - with:
    - host: ${{ secrets.HOST }}
    - user: ${{ secrets.USER }}
