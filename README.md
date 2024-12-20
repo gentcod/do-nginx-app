@@ -1,6 +1,6 @@
 # do-nginx-app
 
-A action helps you initialize a Nginx server on a Virtual Machine by simply setting up environment variables.
+A action helps you initialize a Nginx proxied web server on a Virtual Machine by simply setting up environment variables.
 
 ## Inputs
 
