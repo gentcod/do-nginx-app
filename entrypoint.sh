@@ -1,6 +1,6 @@
-#!/bin/bash
-set -o errexit
-set -o nounset
+#!/usr/bin/env bash
+set -e
+set -u
 set -o pipefail
 
 # Print all environment variables for debugging (optional, remove in production)
