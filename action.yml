@@ -68,7 +68,8 @@ runs:
       INPUT_API_PORT: ${{ inputs.api-port }}
       INPUT_ENV: ${{ inputs.env }}
     run: |
-      ${{ github.action_path }}/entrypoint.sh
+      chmod +x ${{ github.action_path }}/entrypoint.sh
+      bash ${{ github.action_path }}/entrypoint.sh
       if [ $? -eq 0 ]; then
         echo "status=success" >> "$GITHUB_OUTPUT"
       else
