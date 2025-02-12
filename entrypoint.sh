@@ -9,6 +9,7 @@ set -o pipefail
 
 docker_run_command=(
     docker run
+    --rm
     -e "INPUT_HOST=${INPUT_HOST:-}"
     -e "INPUT_PROTOCOL=${INPUT_PROTOCOL:-}"
     -e "INPUT_PORT=${INPUT_PORT:-}"
@@ -19,10 +20,7 @@ docker_run_command=(
     -e "INPUT_GITHUB_REPO=${INPUT_GITHUB_REPO:-}"
     -e "INPUT_STARTUP_SCRIPT=${INPUT_STARTUP_SCRIPT:-}"
     -e "INPUT_API_PORT=${INPUT_API_PORT:-}"
-    -e "INPUT_ENV=${INPUT_ENV:-}"
-
-    -i -t
-    
+    -e "INPUT_ENV=${INPUT_ENV:-}"    
     gentcod/do-nginx
 )
 
