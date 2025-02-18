@@ -1,4 +1,14 @@
 #!/usr/bin/env bash
+
+###############################
+# Author: Oyefule Oluwatayo
+# Date: 13/06/2024
+#
+# This script outputs the node health
+#
+# Version: v1
+###############################
+
 set -e
 set -u
 set -o pipefail

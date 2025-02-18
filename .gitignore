@@ -2,3 +2,4 @@ bin/
 *.txt
 secrets/*
 *.env
+*test*
