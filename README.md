@@ -13,7 +13,7 @@ Making sure unnecessary residuals are not persisted.
 
 > Currently only supports NodeJS servers.
 
-### Prequisites
+### Prerequisites
 
 For best experience: 
 
