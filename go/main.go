@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bytes"
 	"fmt"
 	"log"
 	"os"
@@ -37,6 +36,13 @@ func main() {
 		log.Fatal("error parsing args to script", err)
 	}
 
+	defer func() {
+		err = os.Remove(config.UpdateScriptPath)
+		if err != nil {
+			log.Fatal("Error deleting file: ", err)
+		}
+	}()
+
 	// Implement SSH
 	opts := sshOpts{
 		HostAddr: fmt.Sprintf("%s:%d", args.HostAddr, args.Port),
@@ -63,32 +69,16 @@ func main() {
 		log.Fatal("failed to copy script: ", err)
 	}
 
-	session, err := client.NewSession()
+	err = sshExec(client, config.RemoteFilePath)
 	if err != nil {
-		log.Fatal("failed to create session: ", err)
+		log.Print("failed to execute script: ", err)
 	}
-	defer session.Close()
-
-	var b bytes.Buffer
-	session.Stdout = &b
-	session.Stderr = &b
-
-	if err := session.Run(fmt.Sprintf("bash %s", config.RemoteFilePath)); err != nil {
-		log.Fatal("failed to run: " + err.Error())
-	}
-	fmt.Println("Script output: ....")
-	fmt.Println(b.String())
 
 	err = sshCleanup(client, config.RemoteFilePath)
 	if err != nil {
 		log.Fatal("failed to cleanup copied script: ", err)
 	}
-
-	err = os.Remove(config.UpdateScriptPath)
-	if err != nil {
-		log.Fatal("Error deleting file: ", err)
-	}
 }
 
 // TODO: write testcases for key funcs
-// TODO: Implement updating server from http to https: Param: http, https. 
+// TODO: Implement updating server from http to https: Param: http, https.
